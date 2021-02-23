@@ -23,9 +23,9 @@ CREATE TABLE clients (
 CREATE TABLE employees (
     employee_id serial PRIMARY KEY,
 	employee_name text NOT NULL,
-	employee_address text,
-	employee_phones text[],
-	employee_emails text[],
+	employee_address text NOT NULL,
+	employee_phones text[] NOT NULL,
+	employee_emails text[] NOT NULL,
 	education text NOT NULL,
 	position text NOT NULL
 );
@@ -47,6 +47,7 @@ CREATE TABLE services (
 
 CREATE TABLE tasks (
     task_id serial PRIMARY KEY,
+	service_id integer REFERENCES services (service_id) ON DELETE RESTRICT ON UPDATE CASCADE,
 	employee_id integer REFERENCES employees (employee_id) ON DELETE RESTRICT ON UPDATE CASCADE,
 	description text
 );
