@@ -11,21 +11,44 @@ INSERT INTO service_types (service_type_id, service_type_name, service_info) VAL
 	('К', 'Консультация', NULL),
 	('СПТС', 'Судебное представительство по трудовым спорам', NULL);
 	
-INSERT INTO clients (client_type, client_name, client_addresses, client_phones, client_emails, client_contact_persons) VALUES
-    ('organization', 'ООО ВодоСтрой', '{"г. Иваново, ул. Ленина, д. 2"}', '{"+74950044291", "+79061730490"}',
-	 '{"vasya_pupkin@mail.ru"}', ARRAY[ROW('Галина Ивановна', '+79061689415')::contact_person_t, ROW('Иван Галинович', '+79095801659')::contact_person_t]),
-	('person', 'Иванова Иванна Ивановна', NULL, ARRAY['+74999545279'], NULL, NULL),
-	('organization', 'cat and mouse', ARRAY['г. Шуя, ул. Советская, д. 49'], ARRAY['+79033473590'], ARRAY['helen95@gmail.ru'], NULL);
+INSERT INTO clients (client_type, client_name) VALUES
+    ('organization', 'ООО ВодоСтрой'),
+	('person', 'Иванова Иванна Ивановна'),
+	('organization', 'cat and mouse');
 	
-INSERT INTO employees (employee_name, employee_address, employee_phones, employee_emails, education, position) VALUES
-    ('Головченко Натан Самсонович', 'г. Иваново, Спортивный пер., д. 5', ARRAY['+74954096462'], ARRAY['golovan@yandex.ru'],
-	 'Ивановский государственный университет, юриспруденция', 'юрист'), 
-	('Яброва Ольга Глебовна', 'г. Иваново, ул. Октябрьская, д. 3', ARRAY['+79120995303'], ARRAY['olga_yabrova@mail.ru'],
-	 'Ивановский (филиал) Институт управления, юриспруденция', 'стажёр'),
-	('Дрягина Ефросиния Матвеевна', 'г. Иваново, ул. Строителей, д. 33', ARRAY['+79061691601'], ARRAY['dryagina_frosya@gmail.ru'], 
-	 'Московский государственный университет, юриспруденция', 'главный юрист'),
-	('Дмитриев Агафон Егорович', 'г. Иваново, ул. Ленина, д. 20', ARRAY['+74951077246'], ARRAY['agafon73@yandex.ru'], 
-	 'Ивановский государственный университет, юриспруденция', 'юрист');
+INSERT INTO client_contacts (client_id, client_contact_type, client_contact) VALUES
+    ('1', 'address', 'г. Иваново, ул. Ленина, д. 2'),
+	('1', 'phone', '+74950044291'),
+	('1', 'phone', '+79061730490'),
+	('1', 'email', 'vasya_pupkin@mail.ru'),
+	('2', 'phone', '+74999545279'),
+	('3', 'address', 'г. Шуя, ул. Советская, д. 49'),
+	('3', 'phone', '+79033473590'),
+	('3', 'email', 'helen95@gmail.ru');
+	
+INSERT INTO client_contact_persons (client_id, client_cp_name, client_cp_phone) VALUES
+    ('1', 'Галина Ивановна', '+79061689415'),
+	('1', 'Иван Галинович', '+79095801659');
+	
+INSERT INTO employees (employee_name, education, position) VALUES
+    ('Головченко Натан Самсонович', 'Ивановский государственный университет, юриспруденция', 'юрист'), 
+	('Яброва Ольга Глебовна', 'Ивановский (филиал) Институт управления, юриспруденция', 'стажёр'),
+	('Дрягина Ефросиния Матвеевна', 'Московский государственный университет, юриспруденция', 'главный юрист'),
+	('Дмитриев Агафон Егорович', 'Ивановский государственный университет, юриспруденция', 'юрист');
+	 
+INSERT INTO employee_contacts (employee_id, employee_contact_type, employee_contact) VALUES
+	 ('1', 'address', 'г. Иваново, Спортивный пер., д. 5'),
+	 ('1', 'phone', '+74954096462'),
+	 ('1', 'email', 'golovan@yandex.ru'),
+	 ('2', 'address', 'г. Иваново, ул. Октябрьская, д. 3'),
+	 ('2', 'phone', '+79120995303'),
+	 ('2', 'email', 'olga_yabrova@mail.ru'),
+	 ('3', 'address', 'г. Иваново, ул. Строителей, д. 33'),
+	 ('3', 'phone', '+79061691601'),
+	 ('3', 'email', 'dryagina_frosya@gmail.ru'),
+	 ('4', 'address', 'г. Иваново, ул. Ленина, д. 20'),
+	 ('4', 'phone', '+74951077246'),
+	 ('4', 'email', 'agafon73@yandex.ru'); 
 	 
 INSERT INTO services (service_type_id, client_id, service_begin, service_end, price) VALUES
     ('ОБЮ', '1', DATE('2020-09-30'), DATE('2020-10-20'), '15000'),
