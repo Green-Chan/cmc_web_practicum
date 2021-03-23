@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project basedir="." default="all" name="setup-db">
+
+  <target name="drop">
+    <exec executable="/bin/sh">
+      <arg value="drop.sh"/>
+    </exec>
+  </target>
+
+  <target name="create">
+    <exec executable="/bin/sh">
+      <arg value="create.sh"/>
+    </exec>
+  </target>
+
+  <target name="fill">
+    <exec executable="/bin/sh">
+      <arg value="fill.sh"/>
+    </exec>
+  </target>
+
+  <target name="all" depends="drop, create, fill"/>
+
+</project>
