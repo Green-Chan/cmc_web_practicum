@@ -1,0 +1,7 @@
+
+db.dir = db
+lib.dir = lib
+src.dir = src
+build.dir = bin
+test.dir = ${src.dir}/tests
+testResult.dir = testResult

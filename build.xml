@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project basedir="." default="all" name="cmc_web_practicum">
+
+  <property file="build.prp"/>
+
+  <target name="setup-db">
+    <ant antfile="build.xml" dir = "${db.dir}"/>
+  </target>
+
+  <target name="build">
+    <ant antfile="${src.dir}/build.xml"/>
+  </target>
+
+  <target name="clean">
+    <delete failonerror="false" dir="${build.dir}"/>
+    <delete failonerror="false" dir="${testResult.dir}"/>
+  </target>
+	
+  <taskdef name="testng" classname="org.testng.TestNGAntTask" classpath="lib/testng-7.4.0.jar"/>
+	
+  <target name="test" depends="build">
+  	<mkdir dir ="${testResult.dir}"/>
+  	<fileset id="tests" dir="${build.dir}">
+      <include name="*"/>
+    </fileset>
+  	
+  	<testng mode="mixed" classfilesetref="tests" outputdir="${testResult.dir}">
+	  <classpath location="${build.dir}"/>
+  		
+	  <classpath>
+	    <fileset dir="${lib.dir}" includes="*.jar"/>
+	    <fileset dir="${build.dir}/" includes="*"/>
+	    <pathelement path="src"/>
+	  </classpath>
+  		
+      <xmlfileset dir="." includes="test.xml"/>
+	</testng>
+  </target>
+
+  <target name="all" depends="clean, setup-db, build, test"/>
+</project>
