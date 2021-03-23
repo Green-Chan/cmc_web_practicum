@@ -75,6 +75,68 @@ public class TestClient {
     Assert.assertEquals(client.getType(), loadedClient.getType());
     Assert.assertEquals(loadedClient.getContacts().size(), 1);
     Assert.assertTrue(loadedClient.getContacts().contains(contact));
+  }
 
+  @Test
+  public void getByName() {
+    Client maria = new Client(ClientType.person, "Иванова Мария Ивановна");
+    clientDAO.save(maria);
+
+    Client ivanna = new Client(ClientType.person, "Иванова Иванна Сергеевна");
+    clientDAO.save(ivanna);
+
+    List<Client> foundClients = clientDAO.findByName("Иванова");
+    boolean containsMaria = false;
+    boolean containsIvanna = false;
+    for (Client c : foundClients) {
+      if (c.getId() == maria.getId()) {
+        containsMaria = true;
+      }
+      if (c.getId() == ivanna.getId()) {
+        containsIvanna = true;
+      }
+    }
+    Assert.assertTrue(containsIvanna);
+    Assert.assertTrue(containsMaria);
+
+    foundClients = clientDAO.findByName("Мария");
+    containsMaria = false;
+    containsIvanna = false;
+    for (Client c : foundClients) {
+      if (c.getId() == maria.getId()) {
+        containsMaria = true;
+      }
+      if (c.getId() == ivanna.getId()) {
+        containsIvanna = true;
+      }
+    }
+    Assert.assertTrue(!containsIvanna);
+    Assert.assertTrue(containsMaria);
+  }
+
+  @Test
+  public void getByContact() {
+    Client client = new Client(ClientType.person, "Masha");
+    ClientContact contact = new ClientContact(client, ContactType.phone, "+7 (495) 201-10-47");
+    client.setContacts(List.of(contact));
+    clientDAO.save(client);
+
+    List<Client> foundClients = clientDAO.findByContact(ContactType.phone, "201-10-47");
+    boolean containsMasha = false;
+    for (Client c : foundClients) {
+      if (c.getContacts().contains(contact)) {
+        containsMasha = true;
+      }
+    }
+    Assert.assertTrue(containsMasha);
+
+    foundClients = clientDAO.findByContact(ContactType.email, "201-10-47");
+    containsMasha = false;
+    for (Client c : foundClients) {
+      if (c.getContacts().contains(contact)) {
+        containsMasha = true;
+      }
+    }
+    Assert.assertTrue(!containsMasha);
   }
 }
