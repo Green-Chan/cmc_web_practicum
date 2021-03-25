@@ -2,8 +2,6 @@ package objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -12,7 +10,6 @@ import javax.persistence.Table;
 public class ServiceType {
   @Id
   @Column(name = "service_type_id")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String id;
 
   @Column(name = "service_type_name", nullable = false)
@@ -20,6 +17,16 @@ public class ServiceType {
 
   @Column(name = "service_info")
   private String info;
+
+  public ServiceType() {
+
+  }
+
+  public ServiceType(String id, String name, String info) {
+    this.id = id;
+    this.name = name;
+    this.info = info;
+  }
 
   public String getId() {
     return id;
@@ -43,5 +50,17 @@ public class ServiceType {
 
   public void setInfo(String info) {
     this.info = info;
+  }
+
+  public boolean equals(Object oth) {
+    if (this == oth) {
+      return true;
+    }
+
+    if (oth == null || getClass() != oth.getClass()) {
+      return false;
+    }
+    ServiceType other = (ServiceType) oth;
+    return id.equals(other.id) && name.equals(other.name) && info.equals(other.info);
   }
 }

@@ -4,6 +4,7 @@
     <test name="Client">
         <classes>
             <class name="tests.TestClient"/>
+            <class name="tests.TestServiceType"/>
         </classes>
     </test>
 </suite>
