@@ -78,6 +78,15 @@ public class TestClient {
   }
 
   @Test
+  public void deleteClient() {
+    Client client = new Client(ClientType.person, "deleted client");
+    clientDAO.save(client);
+    clientDAO.delete(client);
+    Client loadedClient = clientDAO.findById(client.getId());
+    Assert.assertEquals(loadedClient, null);
+  }
+
+  @Test
   public void getByName() {
     Client maria = new Client(ClientType.person, "Иванова Мария Ивановна");
     clientDAO.save(maria);
@@ -138,5 +147,79 @@ public class TestClient {
       }
     }
     Assert.assertTrue(!containsMasha);
+  }
+
+  @Test
+  public void getByAll() {
+    Client gbaTestClient = new Client(ClientType.person, "gba client");
+    ClientContact contact1 = new ClientContact(gbaTestClient, ContactType.phone, "+74952011047");
+    ClientContact contact2 = new ClientContact(gbaTestClient, ContactType.email, "gbaclient@cs.msu.ru");
+    gbaTestClient.setContacts(List.of(contact1, contact2));
+    ClientContactPerson cp1 = new ClientContactPerson(gbaTestClient, "Contact1", "88005553535");
+    ClientContactPerson cp2 = new ClientContactPerson(gbaTestClient, "Contact2", "+78005553535");
+    gbaTestClient.setContactPersons(List.of(cp1, cp2));
+
+    clientDAO.save(gbaTestClient);
+
+    contact1.setId(0);
+    contact2.setId(0);
+    cp1.setId(0);
+    cp2.setId(0);
+    List<Client> foundClients = clientDAO.findByAll(gbaTestClient.getType(), gbaTestClient.getName(), contact2, cp1,
+        null);
+    boolean found = false;
+    for (Client cl : foundClients) {
+      if (cl.getId() == gbaTestClient.getId()) {
+        found = true;
+      }
+    }
+    Assert.assertTrue(found);
+
+    foundClients = clientDAO.findByAll(gbaTestClient.getType(), null, contact1, null, null);
+    found = false;
+    for (Client cl : foundClients) {
+      if (cl.getId() == gbaTestClient.getId()) {
+        found = true;
+      }
+    }
+    Assert.assertTrue(found);
+
+    foundClients = clientDAO.findByAll(null, null, null, cp2, null);
+    found = false;
+    for (Client cl : foundClients) {
+      if (cl.getId() == gbaTestClient.getId()) {
+        found = true;
+      }
+    }
+    Assert.assertTrue(found);
+
+    foundClients = clientDAO.findByAll(null, null, null, null, null);
+    found = false;
+    for (Client cl : foundClients) {
+      if (cl.getId() == gbaTestClient.getId()) {
+        found = true;
+      }
+    }
+    Assert.assertTrue(found);
+
+    foundClients = clientDAO.findByAll(gbaTestClient.getType(), null, new ClientContact(null, null, "wrong contact"),
+        null, null);
+    found = false;
+    for (Client cl : foundClients) {
+      if (cl.getId() == gbaTestClient.getId()) {
+        found = true;
+      }
+    }
+    Assert.assertTrue(!found);
+
+    foundClients = clientDAO.findByAll(null, "ent", null, new ClientContactPerson(null, "tact", null), null);
+    found = false;
+    for (Client cl : foundClients) {
+      if (cl.getId() == gbaTestClient.getId()) {
+        found = true;
+      }
+    }
+    Assert.assertTrue(found);
+
   }
 }
