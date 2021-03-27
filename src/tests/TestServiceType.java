@@ -46,14 +46,15 @@ public class TestServiceType {
   @Test
   public void findServiceType() {
     ServiceType testServiceTypeMew = new ServiceType("FTSTC", "Find test service type with cat", "Have mew in info");
-    ServiceType testServiceType = new ServiceType("FTST", "Find test service type", "Empty info");
+    ServiceType testServiceType = new ServiceType("FTST", "Find test service type", null);
     serviceTypeDAO.save(testServiceType);
     serviceTypeDAO.save(testServiceTypeMew);
+    Assert.assertNotEquals(testServiceType, testServiceTypeMew);
     List<ServiceType> loadedServiceTypes = serviceTypeDAO.findByOther("test", null);
     Assert.assertTrue(loadedServiceTypes.contains(testServiceType) && loadedServiceTypes.contains(testServiceTypeMew));
     loadedServiceTypes = serviceTypeDAO.findByOther(null, "mew");
     Assert.assertTrue(!loadedServiceTypes.contains(testServiceType) && loadedServiceTypes.contains(testServiceTypeMew));
     loadedServiceTypes = serviceTypeDAO.findByOther("Find", "info");
-    Assert.assertTrue(loadedServiceTypes.contains(testServiceType) && loadedServiceTypes.contains(testServiceTypeMew));
+    Assert.assertTrue(!loadedServiceTypes.contains(testServiceType) && loadedServiceTypes.contains(testServiceTypeMew));
   }
 }

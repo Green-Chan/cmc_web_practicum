@@ -61,6 +61,16 @@ public class ServiceType {
       return false;
     }
     ServiceType other = (ServiceType) oth;
-    return id.equals(other.id) && name.equals(other.name) && info.equals(other.info);
+
+    if (info == null) {
+      if (other.info != null) {
+        return false;
+      }
+    } else {
+      if (!info.equals(other.info)) {
+        return false;
+      }
+    }
+    return id.equals(other.id) && name.equals(other.name);
   }
 }
