@@ -34,6 +34,7 @@ public class TestClient {
     Assert.assertEquals(loadedClient.getContacts().size(), 0);
     Assert.assertEquals(loadedClient.getContactPersons().size(), 0);
     Assert.assertEquals(loadedClient.getServices().size(), 0);
+    Assert.assertEquals(client, loadedClient);
 
     // ----------------//
 
@@ -56,6 +57,7 @@ public class TestClient {
     Assert.assertEquals(loadedClient.getContactPersons().size(), 1);
     Assert.assertTrue(loadedClient.getContactPersons().contains(cp));
     Assert.assertEquals(loadedClient.getServices().size(), 0);
+    Assert.assertEquals(client, loadedClient);
   }
 
   @Test
@@ -75,6 +77,7 @@ public class TestClient {
     Assert.assertEquals(client.getType(), loadedClient.getType());
     Assert.assertEquals(loadedClient.getContacts().size(), 1);
     Assert.assertTrue(loadedClient.getContacts().contains(contact));
+    Assert.assertEquals(client, loadedClient);
   }
 
   @Test
@@ -107,6 +110,9 @@ public class TestClient {
     }
     Assert.assertTrue(containsIvanna);
     Assert.assertTrue(containsMaria);
+    Assert.assertTrue(foundClients.contains(maria));
+
+    Assert.assertTrue(foundClients.contains(ivanna));
 
     foundClients = clientDAO.findByName("Мария");
     containsMaria = false;
@@ -121,6 +127,9 @@ public class TestClient {
     }
     Assert.assertTrue(!containsIvanna);
     Assert.assertTrue(containsMaria);
+
+    Assert.assertTrue(foundClients.contains(maria));
+    Assert.assertTrue(!foundClients.contains(ivanna));
   }
 
   @Test
@@ -138,6 +147,7 @@ public class TestClient {
       }
     }
     Assert.assertTrue(containsMasha);
+    Assert.assertTrue(foundClients.contains(client));
 
     foundClients = clientDAO.findByContact(ContactType.email, "201-10-47");
     containsMasha = false;
@@ -147,6 +157,7 @@ public class TestClient {
       }
     }
     Assert.assertTrue(!containsMasha);
+    Assert.assertTrue(!foundClients.contains(client));
   }
 
   @Test
@@ -161,10 +172,6 @@ public class TestClient {
 
     clientDAO.save(gbaTestClient);
 
-    contact1.setId(0);
-    contact2.setId(0);
-    cp1.setId(0);
-    cp2.setId(0);
     List<Client> foundClients = clientDAO.findByAll(gbaTestClient.getType(), gbaTestClient.getName(), contact2, cp1,
         null);
     boolean found = false;
@@ -173,7 +180,9 @@ public class TestClient {
         found = true;
       }
     }
+
     Assert.assertTrue(found);
+    Assert.assertTrue(foundClients.contains(gbaTestClient));
 
     foundClients = clientDAO.findByAll(gbaTestClient.getType(), null, contact1, null, null);
     found = false;
@@ -183,6 +192,7 @@ public class TestClient {
       }
     }
     Assert.assertTrue(found);
+    Assert.assertTrue(foundClients.contains(gbaTestClient));
 
     foundClients = clientDAO.findByAll(null, null, null, cp2, null);
     found = false;
@@ -192,6 +202,7 @@ public class TestClient {
       }
     }
     Assert.assertTrue(found);
+    Assert.assertTrue(foundClients.contains(gbaTestClient));
 
     foundClients = clientDAO.findByAll(null, null, null, null, null);
     found = false;
@@ -201,6 +212,7 @@ public class TestClient {
       }
     }
     Assert.assertTrue(found);
+    Assert.assertTrue(foundClients.contains(gbaTestClient));
 
     foundClients = clientDAO.findByAll(gbaTestClient.getType(), null, new ClientContact(null, null, "wrong contact"),
         null, null);
@@ -211,6 +223,7 @@ public class TestClient {
       }
     }
     Assert.assertTrue(!found);
+    Assert.assertTrue(!foundClients.contains(gbaTestClient));
 
     foundClients = clientDAO.findByAll(null, "ent", null, new ClientContactPerson(null, "tact", null), null);
     found = false;
@@ -220,6 +233,7 @@ public class TestClient {
       }
     }
     Assert.assertTrue(found);
+    Assert.assertTrue(foundClients.contains(gbaTestClient));
 
   }
 }

@@ -53,11 +53,9 @@ public class Client {
   public Client() {
   }
 
-  public Client(ClientType type, String name/* , Set<Contact> contacts, Set<ContactPerson> contactPersons */) {
+  public Client(ClientType type, String name) {
     this.type = type;
     this.name = name;
-//    this.contacts = contacts;
-//    this.contactPersons = contactPersons;
   }
 
   public int getId() {
@@ -106,5 +104,54 @@ public class Client {
 
   public void setServices(List<Service> services) {
     this.services = services;
+  }
+
+  @Override
+  public boolean equals(Object oth) {
+    if (this == oth) {
+      return true;
+    }
+
+    if (oth == null || getClass() != oth.getClass()) {
+      return false;
+    }
+
+    Client other = (Client) oth;
+
+    if (contacts != null && contacts.size() > 0) {
+      if (other.contacts == null || !(other.contacts.containsAll(contacts))) {
+        return false;
+      }
+    }
+
+    if (other.contacts != null && other.contacts.size() > 0) {
+      if (contacts == null || !(contacts.containsAll(other.contacts))) {
+        return false;
+      }
+    }
+
+    if (contactPersons != null && contactPersons.size() > 0) {
+      if (other.contactPersons == null || !(other.contactPersons.containsAll(contactPersons))) {
+        return false;
+      }
+    }
+    if (other.contactPersons != null && other.contactPersons.size() > 0) {
+      if (contactPersons == null || !(contactPersons.containsAll(other.contactPersons))) {
+        return false;
+      }
+    }
+
+    if (services != null && services.size() > 0) {
+      if (other.services == null || !(other.services.containsAll(services))) {
+        return false;
+      }
+    }
+    if (other.services != null && other.services.size() > 0) {
+      if (services == null || !(services.containsAll(other.services))) {
+        return false;
+      }
+    }
+
+    return id == other.id && type.equals(other.type) && name.equals(other.name);
   }
 }
