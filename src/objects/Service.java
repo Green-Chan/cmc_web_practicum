@@ -1,6 +1,7 @@
 package objects;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +47,17 @@ public class Service {
   @Column(name = "price")
   @Type(type = "big_decimal")
   private BigDecimal price;
+
+  public Service() {
+  }
+
+  public Service(Client client, ServiceType serviceType, Date beginTime, Date endTime, BigDecimal price) {
+    this.client = client;
+    this.serviceType = serviceType;
+    this.beginTime = beginTime;
+    this.endTime = endTime;
+    this.price = price;
+  }
 
   public int getId() {
     return id;
@@ -103,6 +115,21 @@ public class Service {
     this.price = price;
   }
 
+  private boolean datesEquals(Date date1, Date date2) {
+    if (date1 == null) {
+      return date2 == null;
+    }
+    Calendar calendar1 = Calendar.getInstance();
+    calendar1.setTimeInMillis(date1.getTime());
+
+    Calendar calendar2 = Calendar.getInstance();
+    calendar2.setTimeInMillis(date2.getTime());
+
+    return calendar1.get(Calendar.DAY_OF_MONTH) == calendar2.get(Calendar.DAY_OF_MONTH)
+        && calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH)
+        && calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR);
+  }
+
   @Override
   public boolean equals(Object oth) {
     if (this == oth) {
@@ -114,7 +141,31 @@ public class Service {
     }
 
     Service other = (Service) oth;
-    return id == other.id && client.getId() == other.client.getId() && serviceType.equals(other.serviceType);
+
+    if (tasks != null && tasks.size() > 0) {
+      if (other.tasks == null || !(other.tasks.containsAll(tasks))) {
+        return false;
+      }
+    }
+    if (other.tasks != null && other.tasks.size() > 0) {
+      if (tasks == null || !(tasks.containsAll(other.tasks))) {
+        return false;
+      }
+    }
+
+    if (price == null) {
+      if (other.price != null) {
+        return false;
+      }
+    } else {
+      if (!price.equals(other.price)) {
+        return false;
+      }
+    }
+
+    return id == other.id && client.getId() == other.client.getId()
+        && serviceType.getId().equals(other.serviceType.getId()) && datesEquals(beginTime, other.beginTime)
+        && datesEquals(endTime, other.endTime);
   }
 
 }
