@@ -19,8 +19,8 @@ public class Task {
   private int id;
 
   @ManyToOne
-  @JoinColumn(name = "client_id", nullable = false)
-  private Client client;
+  @JoinColumn(name = "service_id", nullable = false)
+  private Service service;
 
   @ManyToOne
   @JoinColumn(name = "employee_id", nullable = false)
@@ -32,8 +32,8 @@ public class Task {
   public Task() {
   }
 
-  public Task(Client client, Employee employee, String description) {
-    this.client = client;
+  public Task(Service service, Employee employee, String description) {
+    this.service = service;
     this.employee = employee;
     this.description = description;
   }
@@ -46,12 +46,12 @@ public class Task {
     this.id = id;
   }
 
-  public Client getClient() {
-    return client;
+  public Service getService() {
+    return service;
   }
 
-  public void setClient(Client client) {
-    this.client = client;
+  public void setService(Service service) {
+    this.service = service;
   }
 
   public Employee getEmployee() {
@@ -68,5 +68,21 @@ public class Task {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  @Override
+  public boolean equals(Object oth) {
+    if (this == oth) {
+      return true;
+    }
+
+    if ((oth == null && this != null) || getClass() != oth.getClass()) {
+      return false;
+    }
+
+    Task other = (Task) oth;
+
+    return id == other.id && service.getId() == other.service.getId() && employee.getId() == other.employee.getId()
+        && description.equals(other.description);
   }
 }
