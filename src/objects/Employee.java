@@ -40,6 +40,12 @@ public class Employee {
   public Employee() {
   }
 
+  public Employee(String name, String education, String position) {
+    this.name = name;
+    this.education = education;
+    this.position = position;
+  }
+
   public int getId() {
     return id;
   }
@@ -78,5 +84,51 @@ public class Employee {
 
   public void setContacts(List<EmployeeContact> contacts) {
     this.contacts = contacts;
+  }
+
+  public List<Task> getTasks() {
+    return tasks;
+  }
+
+  public void setTasks(List<Task> tasks) {
+    this.tasks = tasks;
+  }
+
+  @Override
+  public boolean equals(Object oth) {
+    if (this == oth) {
+      return true;
+    }
+
+    if ((oth == null && this != null) || getClass() != oth.getClass()) {
+      return false;
+    }
+
+    Employee other = (Employee) oth;
+
+    if (tasks != null && tasks.size() > 0) {
+      if (other.tasks == null || !(other.tasks.containsAll(tasks))) {
+        return false;
+      }
+    }
+    if (other.tasks != null && other.tasks.size() > 0) {
+      if (tasks == null || !(tasks.containsAll(other.tasks))) {
+        return false;
+      }
+    }
+
+    if (contacts != null && contacts.size() > 0) {
+      if (other.contacts == null || !(other.contacts.containsAll(contacts))) {
+        return false;
+      }
+    }
+    if (other.contacts != null && other.contacts.size() > 0) {
+      if (contacts == null || !(contacts.containsAll(other.contacts))) {
+        return false;
+      }
+    }
+
+    return id == other.id && name.equals(other.name) && education.equals(other.education)
+        && position.equals(other.position);
   }
 }

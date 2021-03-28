@@ -6,6 +6,7 @@
             <class name="tests.TestClient"/>
             <class name="tests.TestServiceType"/>
             <class name="tests.TestService"/>
+            <class name="tests.TestEmployee"/>
         </classes>
     </test>
 </suite>

@@ -22,9 +22,6 @@ import utils.PostgreSQLEnumType;
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 public class EmployeeContact {
 
-  public EmployeeContact() {
-  }
-
   @Id
   @Column(name = "employee_contact_id", columnDefinition = "serial")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +38,9 @@ public class EmployeeContact {
 
   @Column(name = "employee_contact", nullable = false)
   private String contact;
+
+  public EmployeeContact() {
+  }
 
   public EmployeeContact(Employee employee, ContactType contactType, String contact) {
     this.employee = employee;
