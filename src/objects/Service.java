@@ -35,7 +35,7 @@ public class Service {
   private ServiceType serviceType;
 
   @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "service_id")
+  @JoinColumn(name = "service_id", insertable = false, updatable = false)
   private List<Task> tasks;
 
   @Column(name = "service_begin")

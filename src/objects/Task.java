@@ -1,30 +1,17 @@
 package objects;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "tasks")
 public class Task {
 
-  @Id
-  @Column(name = "task_id", columnDefinition = "serial")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
-
-  @ManyToOne
-  @JoinColumn(name = "service_id", nullable = false)
-  private Service service;
-
-  @ManyToOne
-  @JoinColumn(name = "employee_id", nullable = false)
-  private Employee employee;
+  @EmbeddedId
+  private TaskId id;
 
   @Column(name = "description", nullable = false)
   private String description;
@@ -33,33 +20,34 @@ public class Task {
   }
 
   public Task(Service service, Employee employee, String description) {
-    this.service = service;
-    this.employee = employee;
+    this.id = new TaskId(service, employee);
     this.description = description;
   }
 
-  public int getId() {
+  public TaskId getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(TaskId id) {
     this.id = id;
   }
 
+  @Transient
   public Service getService() {
-    return service;
+    return id.getService();
   }
 
   public void setService(Service service) {
-    this.service = service;
+    id.setService(service);
   }
 
+  @Transient
   public Employee getEmployee() {
-    return employee;
+    return id.getEmployee();
   }
 
   public void setEmployee(Employee employee) {
-    this.employee = employee;
+    id.setEmployee(employee);
   }
 
   public String getDescription() {
@@ -82,7 +70,6 @@ public class Task {
 
     Task other = (Task) oth;
 
-    return id == other.id && service.getId() == other.service.getId() && employee.getId() == other.employee.getId()
-        && description.equals(other.description);
+    return id.equals(other.id) && description.equals(other.description);
   }
 }

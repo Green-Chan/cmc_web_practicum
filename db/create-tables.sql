@@ -1,18 +1,18 @@
 DROP TYPE IF EXISTS contact_t;
 CREATE TYPE contact_t AS enum (
-    'address',
+	'address',
 	'phone',
 	'email'
 );
 
 DROP TYPE IF EXISTS client_type_t;
 CREATE TYPE client_type_t AS enum (
-    'person',
-    'organization'
+	'person',
+	'organization'
 );
 
 CREATE TABLE clients (
-    client_id serial PRIMARY KEY,
+	client_id serial PRIMARY KEY,
 	client_type client_type_t NOT NULL,
 	client_name text NOT NULL
 );
@@ -32,7 +32,7 @@ CREATE TABLE client_contact_persons (
 );
 
 CREATE TABLE employees (
-    employee_id serial PRIMARY KEY,
+	employee_id serial PRIMARY KEY,
 	employee_name text NOT NULL,
 	education text NOT NULL,
 	position text NOT NULL
@@ -47,13 +47,13 @@ CREATE TABLE employee_contacts (
 
 
 CREATE TABLE service_types (
-    service_type_id text PRIMARY KEY,
+	service_type_id text PRIMARY KEY,
 	service_type_name text NOT NULL,
 	service_info text
 );
 
 CREATE TABLE services (
-    service_id serial PRIMARY KEY,
+	service_id serial PRIMARY KEY,
 	service_type_id text REFERENCES service_types (service_type_id) ON DELETE RESTRICT ON UPDATE CASCADE,
 	client_id integer REFERENCES clients (client_id) ON DELETE RESTRICT ON UPDATE CASCADE,
 	service_begin date,
@@ -62,8 +62,8 @@ CREATE TABLE services (
 );
 
 CREATE TABLE tasks (
-    task_id serial PRIMARY KEY,
-	service_id integer REFERENCES services (service_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+	service_id integer REFERENCES services (service_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	employee_id integer REFERENCES employees (employee_id) ON DELETE RESTRICT ON UPDATE CASCADE,
-	description text
+	description text,
+	PRIMARY KEY(service_id, employee_id)
 );
