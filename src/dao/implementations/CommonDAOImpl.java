@@ -73,7 +73,7 @@ public class CommonDAOImpl<T, K extends Serializable> implements CommonDAO<T, K>
   }
 
   @Override
-  public List<T> finadAll() {
+  public List<T> findAll() {
     Session session = null;
     List<T> objects = new ArrayList<T>();
 

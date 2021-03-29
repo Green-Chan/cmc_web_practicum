@@ -3,10 +3,14 @@ package tests;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import dao.forms.ClientSearchForm;
+import dao.forms.EmployeeSearchForm;
+import dao.forms.ServiceSearchForm;
 import dao.implementations.ClientDAOImpl;
 import dao.implementations.ServiceDAOImpl;
 import dao.implementations.ServiceTypeDAOImpl;
@@ -30,7 +34,7 @@ public class TestService {
   }
 
   @Test
-  public void saveAndDeleteService() {
+  public void saveFindAndDeleteService() {
     ServiceType testServiceType = new ServiceType("TSTforSDS", "Test service type for save and delete Service test",
         null);
     serviceTypeDAO.save(testServiceType);
@@ -55,6 +59,23 @@ public class TestService {
     Service loadedService = serviceDAO.findById(testService.getId());
 
     Assert.assertEquals(testService, loadedService);
+
+    // ---- Find ----- //
+
+    ServiceSearchForm serviceForm = new ServiceSearchForm(null, " service type for save", null, null, endTime, endTime,
+        new BigDecimal("1200.00"), new BigDecimal("2000.00"));
+    List<Service> loadedServices = serviceDAO.findByAll(serviceForm, null, null);
+    Assert.assertTrue(loadedServices.contains(testService));
+
+    ClientSearchForm clientForm = new ClientSearchForm(null, testClient.getName(), null, null, null, null);
+    loadedServices = serviceDAO.findByAll(null, null, List.of(clientForm));
+    Assert.assertTrue(loadedServices.contains(testService));
+
+    EmployeeSearchForm employeeForm = new EmployeeSearchForm("", "", null, null, null);
+    loadedServices = serviceDAO.findByAll(null, List.of(employeeForm), List.of(clientForm));
+    Assert.assertFalse(loadedServices.contains(testService));
+
+    // ---- Delete ----- //
 
     serviceDAO.delete(testService);
     loadedService = serviceDAO.findById(testService.getId());

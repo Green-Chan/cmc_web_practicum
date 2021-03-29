@@ -11,5 +11,5 @@ public interface CommonDAO<T, K> {
 
   public void update(T object);
 
-  public List<T> finadAll();
+  public List<T> findAll();
 }

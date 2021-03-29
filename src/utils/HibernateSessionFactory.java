@@ -23,22 +23,18 @@ public class HibernateSessionFactory {
   public static SessionFactory getSessionFactory() {
 
     if (factory == null) {
-      try {
-        Configuration configuration = new Configuration().configure();
-        configuration.addAnnotatedClass(Client.class);
-        configuration.addAnnotatedClass(ClientContact.class);
-        configuration.addAnnotatedClass(ClientContactPerson.class);
-        configuration.addAnnotatedClass(Service.class);
-        configuration.addAnnotatedClass(ServiceType.class);
-        configuration.addAnnotatedClass(Task.class);
-        configuration.addAnnotatedClass(Employee.class);
-        configuration.addAnnotatedClass(EmployeeContact.class);
-        StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder()
-            .applySettings(configuration.getProperties());
-        factory = configuration.buildSessionFactory(registryBuilder.build());
-      } catch (Exception e) {
-        System.err.println(e);
-      }
+      Configuration configuration = new Configuration().configure();
+      configuration.addAnnotatedClass(Client.class);
+      configuration.addAnnotatedClass(ClientContact.class);
+      configuration.addAnnotatedClass(ClientContactPerson.class);
+      configuration.addAnnotatedClass(Service.class);
+      configuration.addAnnotatedClass(ServiceType.class);
+      configuration.addAnnotatedClass(Task.class);
+      configuration.addAnnotatedClass(Employee.class);
+      configuration.addAnnotatedClass(EmployeeContact.class);
+      StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder()
+          .applySettings(configuration.getProperties());
+      factory = configuration.buildSessionFactory(registryBuilder.build());
     }
     return factory;
   }

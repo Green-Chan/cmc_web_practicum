@@ -50,11 +50,11 @@ public class TestServiceType {
     serviceTypeDAO.save(testServiceType);
     serviceTypeDAO.save(testServiceTypeMew);
     Assert.assertNotEquals(testServiceType, testServiceTypeMew);
-    List<ServiceType> loadedServiceTypes = serviceTypeDAO.findByOther("test", null);
+    List<ServiceType> loadedServiceTypes = serviceTypeDAO.findByAll("test", null);
     Assert.assertTrue(loadedServiceTypes.contains(testServiceType) && loadedServiceTypes.contains(testServiceTypeMew));
-    loadedServiceTypes = serviceTypeDAO.findByOther(null, "mew");
+    loadedServiceTypes = serviceTypeDAO.findByAll(null, "mew");
     Assert.assertTrue(!loadedServiceTypes.contains(testServiceType) && loadedServiceTypes.contains(testServiceTypeMew));
-    loadedServiceTypes = serviceTypeDAO.findByOther("Find", "info");
+    loadedServiceTypes = serviceTypeDAO.findByAll("Find", "info");
     Assert.assertTrue(!loadedServiceTypes.contains(testServiceType) && loadedServiceTypes.contains(testServiceTypeMew));
   }
 }

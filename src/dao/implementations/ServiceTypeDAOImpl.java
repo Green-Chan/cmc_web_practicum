@@ -12,7 +12,7 @@ import objects.ServiceType;
 import utils.HibernateSessionFactory;
 
 public class ServiceTypeDAOImpl extends CommonDAOImpl<ServiceType, String> implements ServiceTypeDAO {
-  public List<ServiceType> findByOther(String name, String info) {
+  public List<ServiceType> findByAll(String name, String info) {
     Session session = null;
     List<ServiceType> serviceTypes = new ArrayList<ServiceType>();
 

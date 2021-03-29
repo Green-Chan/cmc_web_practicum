@@ -18,7 +18,7 @@
 	
   <taskdef name="testng" classname="org.testng.TestNGAntTask" classpath="lib/testng-7.4.0.jar"/>
 	
-  <target name="test" depends="build">
+  <target name="test" depends="clean, setup-db, build">
   	<mkdir dir ="${testResult.dir}"/>
   	<fileset id="tests" dir="${build.dir}">
       <include name="*"/>
@@ -37,5 +37,5 @@
 	</testng>
   </target>
 
-  <target name="all" depends="clean, setup-db, build, test"/>
+  <target name="all" depends="test"/>
 </project>
