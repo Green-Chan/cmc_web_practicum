@@ -27,70 +27,6 @@ public class ServiceSearchForm {
     this.priceUpper = priceUpper;
   }
 
-  public String getServiceTypeId() {
-    return serviceTypeId;
-  }
-
-  public void setServiceTypeId(String serviceTypeId) {
-    this.serviceTypeId = serviceTypeId;
-  }
-
-  public String getServiceTypeName() {
-    return serviceTypeName;
-  }
-
-  public void setServiceTypeName(String serviceTypeName) {
-    this.serviceTypeName = serviceTypeName;
-  }
-
-  public Date getBeginLower() {
-    return beginLower;
-  }
-
-  public void setBeginLower(Date beginLower) {
-    this.beginLower = beginLower;
-  }
-
-  public Date getBeginUpper() {
-    return beginUpper;
-  }
-
-  public void setBeginUpper(Date beginUpper) {
-    this.beginUpper = beginUpper;
-  }
-
-  public Date getEndLower() {
-    return endLower;
-  }
-
-  public void setEndLower(Date endLower) {
-    this.endLower = endLower;
-  }
-
-  public Date getEndUpper() {
-    return endUpper;
-  }
-
-  public void setEndUpper(Date endUpper) {
-    this.endUpper = endUpper;
-  }
-
-  public BigDecimal getPriceLower() {
-    return priceLower;
-  }
-
-  public void setPriceLower(BigDecimal priceLower) {
-    this.priceLower = priceLower;
-  }
-
-  public BigDecimal getPriceUpper() {
-    return priceUpper;
-  }
-
-  public void setPriceUpper(BigDecimal priceUpper) {
-    this.priceUpper = priceUpper;
-  }
-
   public String getQueryString(String postfix, Map<String, Object> parameters, boolean selectTask) {
     String queryString = "";
     if (selectTask) {
@@ -101,12 +37,9 @@ public class ServiceSearchForm {
     boolean firstCondition = true;
 
     if (serviceTypeId != null) {
-      if (firstCondition) {
-        queryString += " WHERE";
-        firstCondition = false;
-      } else {
-        queryString += " AND";
-      }
+      queryString += " WHERE";
+      firstCondition = false;
+
       queryString += " serv.serviceType.id = :serv_type_id_param" + postfix;
       parameters.put("serv_type_id_param" + postfix, serviceTypeId);
     }

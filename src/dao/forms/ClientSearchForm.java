@@ -24,54 +24,6 @@ public class ClientSearchForm {
     this.contactPersonPhone = contactPersonPhone;
   }
 
-  public ClientType getType() {
-    return type;
-  }
-
-  public void setType(ClientType type) {
-    this.type = type;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public ContactType getContactType() {
-    return contactType;
-  }
-
-  public void setContactType(ContactType contactType) {
-    this.contactType = contactType;
-  }
-
-  public String getContact() {
-    return contact;
-  }
-
-  public void setContact(String contact) {
-    this.contact = contact;
-  }
-
-  public String getContactPersonName() {
-    return contactPersonName;
-  }
-
-  public void setContactPersonName(String contactPersonName) {
-    this.contactPersonName = contactPersonName;
-  }
-
-  public String getContactPersonPhone() {
-    return contactPersonPhone;
-  }
-
-  public void setContactPersonPhone(String contactPersonPhone) {
-    this.contactPersonPhone = contactPersonPhone;
-  }
-
   public String getQueryString(String postfix, Map<String, Object> parameters, boolean selectTask) {
     String queryString = "";
     if (selectTask) {
@@ -83,12 +35,9 @@ public class ClientSearchForm {
     boolean firstCondition = true;
 
     if (type != null) {
-      if (firstCondition) {
-        queryString += " WHERE";
-        firstCondition = false;
-      } else {
-        queryString += " AND";
-      }
+      queryString += " WHERE";
+      firstCondition = false;
+
       queryString += " cl.type = :cl_type_param" + postfix;
       parameters.put("cl_type_param" + postfix, type);
     }

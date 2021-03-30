@@ -20,46 +20,6 @@ public class EmployeeSearchForm {
     this.contact = contact;
   }
 
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getPosition() {
-    return position;
-  }
-
-  public void setPosition(String position) {
-    this.position = position;
-  }
-
-  public String getEducation() {
-    return education;
-  }
-
-  public void setEducation(String education) {
-    this.education = education;
-  }
-
-  public ContactType getContactType() {
-    return contactType;
-  }
-
-  public void setContactType(ContactType contactType) {
-    this.contactType = contactType;
-  }
-
-  public String getContact() {
-    return contact;
-  }
-
-  public void setContact(String contact) {
-    this.contact = contact;
-  }
-
   public String getQueryString(String postfix, Map<String, Object> parameters, boolean selectTask) {
     String queryString = "";
     if (selectTask) {
@@ -70,12 +30,9 @@ public class EmployeeSearchForm {
     boolean firstCondition = true;
 
     if (name != null) {
-      if (firstCondition) {
-        queryString += " WHERE";
-        firstCondition = false;
-      } else {
-        queryString += " AND";
-      }
+      queryString += " WHERE";
+      firstCondition = false;
+
       queryString += " empl.name LIKE :serv_name_param" + postfix;
       parameters.put("serv_name_param" + postfix, "%" + name + "%");
     }
