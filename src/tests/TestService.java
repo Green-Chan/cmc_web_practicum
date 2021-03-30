@@ -66,6 +66,16 @@ public class TestService {
         new BigDecimal("1200.00"), new BigDecimal("2000.00"));
     List<Service> loadedServices = serviceDAO.findByAll(serviceForm, null, null);
     Assert.assertTrue(loadedServices.contains(testService));
+    serviceForm = new ServiceSearchForm(testServiceType.getId(), " service type for save", null, null, endTime, endTime,
+        null, new BigDecimal("2000.00"));
+    loadedServices = serviceDAO.findByAll(serviceForm, null, null);
+    Assert.assertTrue(loadedServices.contains(testService));
+    serviceForm = new ServiceSearchForm(null, null, null, null, null, null, new BigDecimal("1200.00"), null);
+    loadedServices = serviceDAO.findByAll(serviceForm, null, null);
+    Assert.assertTrue(loadedServices.contains(testService));
+    serviceForm = new ServiceSearchForm(null, null, null, null, null, null, null, new BigDecimal("2000.00"));
+    loadedServices = serviceDAO.findByAll(serviceForm, null, null);
+    Assert.assertTrue(loadedServices.contains(testService));
 
     ClientSearchForm clientForm = new ClientSearchForm(null, testClient.getName(), null, null, null, null);
     loadedServices = serviceDAO.findByAll(null, null, List.of(clientForm));
@@ -74,6 +84,8 @@ public class TestService {
     EmployeeSearchForm employeeForm = new EmployeeSearchForm("", "", null, null, null);
     loadedServices = serviceDAO.findByAll(null, List.of(employeeForm), List.of(clientForm));
     Assert.assertFalse(loadedServices.contains(testService));
+
+    loadedServices = serviceDAO.findByAll(serviceForm, List.of(employeeForm), null);
 
     // ---- Delete ----- //
 
