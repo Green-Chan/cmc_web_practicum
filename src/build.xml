@@ -9,8 +9,6 @@
   </path>
 
   <target name="build">
-    <mkdir dir="${build.dir}"/>
-
     <javac includeantruntime="false"
         srcdir="${src.dir}" destdir="${build.dir}"
         classpathref="build.classpath"/>
