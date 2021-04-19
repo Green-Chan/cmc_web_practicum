@@ -1,3 +1,4 @@
+jdk.version = 8
 
 db.dir = db
 lib.dir = lib
@@ -5,3 +6,14 @@ src.dir = src
 build.dir = bin
 test.dir = ${src.dir}/tests
 testResult.dir = testResult
+web.dir = ${src.dir}/web
+webbuild.dir = webbuild
+war.name = main
+war.file = ${war.name}.war
+
+
+glassfish.home = glassfish5
+glassfish.admin.port = 4848
+glassfish.domain = domain1
+
+java.home = /usr/lib/jvm/java-8-openjdk-amd64

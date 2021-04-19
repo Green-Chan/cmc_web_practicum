@@ -1,6 +1,7 @@
 package tests;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -78,14 +79,14 @@ public class TestService {
     Assert.assertTrue(loadedServices.contains(testService));
 
     ClientSearchForm clientForm = new ClientSearchForm(null, testClient.getName(), null, null, null, null);
-    loadedServices = serviceDAO.findByAll(null, null, List.of(clientForm));
+    loadedServices = serviceDAO.findByAll(null, null, Arrays.asList(clientForm));
     Assert.assertTrue(loadedServices.contains(testService));
 
     EmployeeSearchForm employeeForm = new EmployeeSearchForm("", "", null, null, null);
-    loadedServices = serviceDAO.findByAll(null, List.of(employeeForm), List.of(clientForm));
+    loadedServices = serviceDAO.findByAll(null, Arrays.asList(employeeForm), Arrays.asList(clientForm));
     Assert.assertFalse(loadedServices.contains(testService));
 
-    loadedServices = serviceDAO.findByAll(serviceForm, List.of(employeeForm), null);
+    loadedServices = serviceDAO.findByAll(serviceForm, Arrays.asList(employeeForm), null);
 
     // ---- Delete ----- //
 

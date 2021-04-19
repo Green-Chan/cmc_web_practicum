@@ -1,6 +1,7 @@
 package tests;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -48,7 +49,7 @@ public class TestEmployee {
     Employee testEmployee = new Employee("test emp", "test emp", "test emp");
     EmployeeContact contact1 = new EmployeeContact(testEmployee, ContactType.phone, "test employee phone");
     EmployeeContact contact2 = new EmployeeContact(testEmployee, ContactType.email, "test employee email");
-    testEmployee.setContacts(List.of(contact1, contact2));
+    testEmployee.setContacts(Arrays.asList(contact1, contact2));
     employeeDAO.save(testEmployee);
     Employee loadedEmployee = employeeDAO.findById(testEmployee.getId());
     Assert.assertEquals(loadedEmployee, testEmployee);
@@ -76,11 +77,11 @@ public class TestEmployee {
 
     // -------- Create test Task ----------- //
     Task testTask = new Task(testService, testEmployee, "test description");
-    testService.setTasks(List.of(testTask));
+    testService.setTasks(Arrays.asList(testTask));
     serviceDAO.save(testService);
     loadedEmployee = employeeDAO.findById(testEmployee.getId());
     Assert.assertNotEquals(testEmployee, loadedEmployee);
-    testEmployee.setTasks(List.of(testTask));
+    testEmployee.setTasks(Arrays.asList(testTask));
     Assert.assertEquals(loadedEmployee, testEmployee);
 
     // -------- Find ----------//
@@ -102,44 +103,44 @@ public class TestEmployee {
 
     ServiceSearchForm serviceForm = new ServiceSearchForm(null, " service type for save", null, beginTime, endTime,
         endTime, new BigDecimal("1200.00"), new BigDecimal("2000.00"));
-    loadedEmployees = employeeDAO.findByAll(null, List.of(serviceForm), null);
+    loadedEmployees = employeeDAO.findByAll(null, Arrays.asList(serviceForm), null);
     Assert.assertTrue(loadedEmployees.contains(testEmployee));
     serviceForm = new ServiceSearchForm(null, " service type for save", beginTime, null, endTime, null,
         new BigDecimal("1200.00"), new BigDecimal("1200.00"));
-    loadedEmployees = employeeDAO.findByAll(employeeForm, List.of(serviceForm), null);
+    loadedEmployees = employeeDAO.findByAll(employeeForm, Arrays.asList(serviceForm), null);
     Assert.assertFalse(loadedEmployees.contains(testEmployee));
     serviceForm = new ServiceSearchForm(null, " service type for save", beginTime, beginTime, null, endTime,
         new BigDecimal("1200.00"), new BigDecimal("1200.00"));
-    loadedEmployees = employeeDAO.findByAll(employeeForm, List.of(serviceForm), null);
+    loadedEmployees = employeeDAO.findByAll(employeeForm, Arrays.asList(serviceForm), null);
     Assert.assertFalse(loadedEmployees.contains(testEmployee));
     serviceForm = new ServiceSearchForm(null, null, beginTime, beginTime, null, endTime, new BigDecimal("1200.00"),
         new BigDecimal("1200.00"));
-    loadedEmployees = employeeDAO.findByAll(employeeForm, List.of(serviceForm), null);
+    loadedEmployees = employeeDAO.findByAll(employeeForm, Arrays.asList(serviceForm), null);
     Assert.assertFalse(loadedEmployees.contains(testEmployee));
     serviceForm = new ServiceSearchForm(null, null, null, beginTime, null, endTime, new BigDecimal("1200.00"),
         new BigDecimal("1200.00"));
-    loadedEmployees = employeeDAO.findByAll(employeeForm, List.of(serviceForm), null);
+    loadedEmployees = employeeDAO.findByAll(employeeForm, Arrays.asList(serviceForm), null);
     Assert.assertFalse(loadedEmployees.contains(testEmployee));
     serviceForm = new ServiceSearchForm(null, null, null, null, null, endTime, new BigDecimal("1200.00"),
         new BigDecimal("1200.00"));
-    loadedEmployees = employeeDAO.findByAll(employeeForm, List.of(serviceForm), null);
+    loadedEmployees = employeeDAO.findByAll(employeeForm, Arrays.asList(serviceForm), null);
     Assert.assertFalse(loadedEmployees.contains(testEmployee));
     serviceForm = new ServiceSearchForm(null, null, null, null, endTime, endTime, new BigDecimal("1200.00"),
         new BigDecimal("1200.00"));
     loadedEmployees = employeeDAO.findByAll(employeeForm, null, null);
     Assert.assertTrue(loadedEmployees.contains(testEmployee));
 
-    loadedEmployees = employeeDAO.findByAll(employeeForm, List.of(serviceForm), null);
+    loadedEmployees = employeeDAO.findByAll(employeeForm, Arrays.asList(serviceForm), null);
     Assert.assertFalse(loadedEmployees.contains(testEmployee));
 
     ClientSearchForm clientForm = new ClientSearchForm(testClient.getType(), null, null, null, null, null);
-    loadedEmployees = employeeDAO.findByAll(null, null, List.of(clientForm));
+    loadedEmployees = employeeDAO.findByAll(null, null, Arrays.asList(clientForm));
     Assert.assertTrue(loadedEmployees.contains(testEmployee));
     clientForm = new ClientSearchForm(null, (testClient.getName() + "5"), null, null, null, null);
     loadedEmployees = employeeDAO.findByAll(employeeForm, null, null);
     Assert.assertTrue(loadedEmployees.contains(testEmployee));
 
-    loadedEmployees = employeeDAO.findByAll(employeeForm, null, List.of(clientForm));
+    loadedEmployees = employeeDAO.findByAll(employeeForm, null, Arrays.asList(clientForm));
 
     // -------- Delete -------- //
     serviceDAO.delete(testService);
@@ -152,7 +153,7 @@ public class TestEmployee {
   public void updateEmployee() {
     Employee testEmployee = new Employee("test emp", "test emp", "test emp");
     EmployeeContact contact = new EmployeeContact(testEmployee, ContactType.phone, "test employee phone");
-    testEmployee.setContacts(List.of(contact));
+    testEmployee.setContacts(Arrays.asList(contact));
     employeeDAO.save(testEmployee);
 
     testEmployee.setContacts(null);

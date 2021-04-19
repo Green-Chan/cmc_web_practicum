@@ -10,6 +10,7 @@
 
   <target name="build">
     <javac includeantruntime="false"
+    	source="${jdk.version}" target="${jdk.version}"
         srcdir="${src.dir}" destdir="${build.dir}"
         classpathref="build.classpath"/>
 

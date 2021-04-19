@@ -6,16 +6,66 @@
   <target name="setup-db">
     <ant antfile="build.xml" dir = "${db.dir}"/>
   </target>
-
-  <target name="build">
+	
+  <target name="init-build">
   	<mkdir dir ="${build.dir}"/>
+  </target>
+
+  <target name="build" depends= "init-build">
     <ant antfile="${src.dir}/build.xml"/>
+  </target>
+	
+  <target name="build-web">
+  	<ant antfile="${web.dir}/build.xml"/>
   </target>
 
   <target name="clean">
     <delete failonerror="false" dir="${build.dir}"/>
     <delete failonerror="false" dir="${testResult.dir}"/>
   </target>
+	
+  <target name="clean-web">
+	<ant antfile="${web.dir}/build.xml" target="clean-web"/>
+  </target>
+	
+  <presetdef name="asadmin">
+  	<java jar = "${glassfish.home}/modules/admin-cli.jar" fork = "true" jvm = "${java.home}/bin/java">
+      <arg line = "--port ${glassfish.admin.port}"/>
+    </java>
+  </presetdef>
+	
+	
+	<target name="start-server">
+	        <exec executable="/bin/sh">
+	            <arg value="${glassfish.home}/bin/asadmin"/>
+	            <arg value="start-domain"/>
+	        	<arg value="${glassfish.domain}"/>
+	        </exec>
+	    </target>
+
+	    <target name="stop-server">
+	        <exec executable="/bin/sh">
+	            <arg value="${glassfish.home}/bin/asadmin"/>
+	            <arg value="stop-domain"/>
+	        	<arg value="${glassfish.domain}"/>
+	        </exec>
+	    </target>
+	
+  <target name = "deploy">
+    <exec executable="/bin/sh">
+    	<arg value="${glassfish.home}/bin/asadmin"/>
+    	<arg value="deploy"/>
+    	<arg value = "${webbuild.dir}/${war.file}"/>
+    </exec>
+  </target>
+	
+	<target name = "undeploy">
+	    <exec executable="/bin/sh">
+	    	<arg value="${glassfish.home}/bin/asadmin"/>
+	    	<arg value="undeploy"/>
+	    	<arg value = "${war.name}"/>
+	    </exec>
+	  </target>
 	
   <taskdef name="testng" classname="org.testng.TestNGAntTask" classpath="lib/testng-7.4.0.jar"/>
 	
