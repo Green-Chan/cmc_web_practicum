@@ -11,6 +11,7 @@
   <target name = "build-web" depends = "init-build-web">
   	<copy todir = "${webbuild.dir}/WEB-INF/classes">
   	      <fileset dir = "${build.dir}" includes = "**/*.*"/>
+	  	  <fileset dir = "${src.dir}" includes = "**/*.xml"/>
   	    </copy>
 
   	    <copy todir = "${webbuild.dir}/WEB-INF/lib" flatten = "true">

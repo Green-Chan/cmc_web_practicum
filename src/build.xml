@@ -4,7 +4,7 @@
 <property file="../build.properties"/>
 
   <path id="build.classpath">
-    <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    <fileset dir="${lib.dir}" includes="*.jar"/>
     <pathelement path="${build.dir}"/>
   </path>
 

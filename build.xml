@@ -55,7 +55,9 @@
     <exec executable="/bin/sh">
     	<arg value="${glassfish.home}/bin/asadmin"/>
     	<arg value="deploy"/>
-    	<arg value = "${webbuild.dir}/${war.file}"/>
+    	<arg value="--contextroot"/>
+    	<arg value="/"/>
+    	<arg value="${webbuild.dir}/${war.file}"/>
     </exec>
   </target>
 	
@@ -63,7 +65,7 @@
 	    <exec executable="/bin/sh">
 	    	<arg value="${glassfish.home}/bin/asadmin"/>
 	    	<arg value="undeploy"/>
-	    	<arg value = "${war.name}"/>
+	    	<arg value="${war.name}"/>
 	    </exec>
 	  </target>
 	
