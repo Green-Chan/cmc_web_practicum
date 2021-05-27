@@ -90,5 +90,31 @@
 	</testng>
   </target>
 
+  <path id="webtestpath">
+	<fileset dir="${webbuild.dir}/WEB-INF/lib">
+	  <include name="*.jar"/>
+	</fileset>
+	<pathelement path="${webbuild.dir}/WEB-INF/classes"/>
+  </path>
+	
+  <target name="web-test" depends= "undeploy, stop-server, clean-web, clean, setup-db, init-build, build, build-web, start-server, deploy">
+  	<mkdir dir ="${testResult.dir}/web"/>
+  	<junit printsummary="yes">
+  	  <formatter type="plain"/>
+  	  <classpath refid="webtestpath"/>
+  	  <test name="webTests.MainControllerTest"/>
+      <test name="webTests.ServiceTypeControllerTest"/>
+  	</junit>
+  	<exec executable="/bin/sh" dir=".">
+  	  <arg value="-c"/>
+  	  <arg value="cat TEST*"/>
+  	</exec>
+  	<move todir="${testResult.dir}/web">
+  	  <fileset dir=".">
+  	    <include name="TEST*"/>
+  	  </fileset>
+  	</move>
+  </target>
+
   <target name="all" depends="test"/>
 </project>

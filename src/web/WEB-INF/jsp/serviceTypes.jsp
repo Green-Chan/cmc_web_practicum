@@ -3,18 +3,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Типы услуг</title>
+<style>
+  table {
+    border-collapse: collapse;
+    border: 2px solid grey;
+  }
+  th {
+    border: 2px solid grey;
+  }
+  td {
+    border: 1px solid grey;
+  }
+  
+</style>
+<title>Типы услуг</title>
 </head>
+
 <body>
-    Hello
-<main>
-    <ul>
-        <c:forEach var="serviceType" items="${serviceTypes}">
-            <li>
-                ${serviceType.id} ${serviceType.name}
-            </li>
-        </c:forEach>
-    </ul>
-</main>
+  <%@ include file="/WEB-INF/jsp/header.jsp" %>
+
+  <h1>Типы услуг</h1>
+  
+  <form method="get" action="">
+        <label for="name">Название:</label>
+        <input type="text" name="name" value="${searchName}">
+        
+        <br>
+
+        <label for="info">Информация:</label>
+        <input type="text" name="info" value="${searchInfo}">
+        
+        <br>
+
+        <button type="submit">Искать</button>
+  </form>
+  
+  <br>
+  
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Название</th>
+    </tr>
+    <c:forEach var="serviceType" items="${serviceTypes}">
+      <tr>
+        <td>
+          <a href="service_type?id=${serviceType.id}">${serviceType.id}</a>
+        </td>
+        <td>${serviceType.name}</td>
+      </tr>
+    </c:forEach>
+  </table>
 </body>
 </html>
