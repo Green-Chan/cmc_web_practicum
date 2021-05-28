@@ -104,6 +104,9 @@
   	  <classpath refid="webtestpath"/>
   	  <test name="webTests.MainControllerTest"/>
       <test name="webTests.ServiceTypeControllerTest"/>
+      <test name="webTests.ServiceControllerTest"/>
+      <test name="webTests.ClientControllerTest"/>
+      <test name="webTests.EmployeeControllerTest"/>
   	</junit>
   	<exec executable="/bin/sh" dir=".">
   	  <arg value="-c"/>

@@ -3,19 +3,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-  table {
-    border-collapse: collapse;
-    border: 2px solid grey;
-  }
-  th {
-    border: 2px solid grey;
-  }
-  td {
-    border: 1px solid grey;
-  }
-  
-</style>
 <title>Типы услуг</title>
 </head>
 
@@ -35,7 +22,7 @@
         
         <br>
 
-        <button type="submit">Искать</button>
+        <button type="submit" name="search">Искать</button>
   </form>
   
   <br>

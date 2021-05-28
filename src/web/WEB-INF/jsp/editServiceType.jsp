@@ -14,7 +14,12 @@
 <body>
   <%@ include file="/WEB-INF/jsp/header.jsp" %>
 
-  <h1>${theObject.name}</h1>
+  <h1>
+    <c:choose>
+      <c:when test="${theObject.id == null}">Добавить тип услуги</c:when>
+      <c:otherwise>Редактировать тип услуги</c:otherwise>
+    </c:choose>
+  </h1>
   
   <form method="post" action="/save_service_type">
         <input type="hidden" name="oldId" value="${theObject.id}"/>

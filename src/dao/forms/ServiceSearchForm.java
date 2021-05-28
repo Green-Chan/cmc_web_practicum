@@ -28,6 +28,10 @@ public class ServiceSearchForm {
   }
 
   public String getQueryString(String postfix, Map<String, Object> parameters, boolean selectTask) {
+    if (serviceTypeId == null && serviceTypeName == null && beginLower == null && beginUpper == null && endLower == null
+        && endUpper == null && priceLower == null && priceUpper == null) {
+      return "";
+    }
     String queryString = "";
     if (selectTask) {
       queryString += " FROM Task task JOIN task.id.service serv";

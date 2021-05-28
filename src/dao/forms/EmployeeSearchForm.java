@@ -21,6 +21,9 @@ public class EmployeeSearchForm {
   }
 
   public String getQueryString(String postfix, Map<String, Object> parameters, boolean selectTask) {
+    if (name == null && position == null && education == null && contactType == null && contact == null) {
+      return "";
+    }
     String queryString = "";
     if (selectTask) {
       queryString += " FROM Task task JOIN task.id.employee empl";

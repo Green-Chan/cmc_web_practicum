@@ -25,6 +25,11 @@ public class ClientSearchForm {
   }
 
   public String getQueryString(String postfix, Map<String, Object> parameters, boolean selectTask) {
+    if (type == null && name == null && contactType == null && contact == null && contactPersonName == null
+        && contactPersonPhone == null) {
+      return "";
+    }
+
     String queryString = "";
     if (selectTask) {
       queryString += " FROM Task task JOIN task.id.service.client cl";

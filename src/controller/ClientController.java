@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import dao.forms.ClientSearchForm;
+import dao.forms.EmployeeSearchForm;
+import dao.forms.ServiceSearchForm;
 import dao.implementations.ClientDAOImpl;
 import dao.interfaces.ClientDAO;
 import objects.Client;
@@ -30,10 +33,16 @@ public class ClientController extends CommonController<Client, Integer, ClientDA
   @RequestMapping(value = "/clients", method = RequestMethod.GET)
   public ModelAndView clients(@RequestParam(name = "name", required = false) String name,
       @RequestParam(name = "clientTypeStr", required = false) String clientTypeStr,
-      @RequestParam(name = "clientContact", required = false) String clientContact) {
+      @RequestParam(name = "clientContact", required = false) String clientContact,
+      @RequestParam(name = "serviceTypeId", required = false) String serviceTypeId,
+      @RequestParam(name = "employeeName", required = false) String employeeName,
+      @RequestParam(name = "beginLowerTime", required = false) String beginLowerTimeStr,
+      @RequestParam(name = "endUpperTime", required = false) String endUpperTimeStr) {
 
     name = prepareString(name);
     clientContact = prepareString(clientContact);
+    serviceTypeId = prepareString(serviceTypeId);
+    employeeName = prepareString(employeeName);
     ClientType clientType;
     if (clientTypeStr == null || clientTypeStr.equals("both")) {
       clientType = null;
@@ -41,13 +50,25 @@ public class ClientController extends CommonController<Client, Integer, ClientDA
       clientType = ClientType.valueOf(clientTypeStr);
     }
 
+    Date beginLowerDate = prepareDate(beginLowerTimeStr);
+    Date endUpperDate = prepareDate(endUpperTimeStr);
+
     ModelAndView modelAndView = new ModelAndView();
 
     ClientSearchForm clientForm = new ClientSearchForm(clientType, name, null, clientContact, null, null);
-    modelAndView.addObject("clients", dao.findByAll(clientForm, null, null));
+    EmployeeSearchForm employeeForm = new EmployeeSearchForm(employeeName, null, null, null, null);
+    ServiceSearchForm serviceForm = new ServiceSearchForm(serviceTypeId, null, beginLowerDate, null, null, endUpperDate,
+        null, null);
+
+    modelAndView.addObject("clients",
+        dao.findByAll(clientForm, Arrays.asList(serviceForm), Arrays.asList(employeeForm)));
     modelAndView.addObject("name", name);
     modelAndView.addObject("clientTypeStr", clientTypeStr);
     modelAndView.addObject("clientContact", clientContact);
+    modelAndView.addObject("serviceTypeId", serviceTypeId);
+    modelAndView.addObject("clientName", employeeName);
+    modelAndView.addObject("beginLowerTimeStr", beginLowerTimeStr);
+    modelAndView.addObject("endUpperTimeStr", endUpperTimeStr);
     modelAndView.setViewName("clients");
     return modelAndView;
   }

@@ -4,31 +4,16 @@
 <html>
 <head>
 
-<title>${theObject.name}</title>
+<title>Клиенты</title>
 </head>
 
 <body>
   <%@ include file="/WEB-INF/jsp/header.jsp" %>
 
-  <h1>${theObject.name}</h1>
-  
-  <table>
-    <tr>
-      <td>ID:</td>
-      <td>${theObject.id}</td>
-    </tr>
-    <tr>
-      <td>Имя / Название:</td>
-      <td>${theObject.name}</td>
-    </tr>
-    <tr>
-      <td>Тип клиента:</td>
-      <td>${theObject.type}</td>
-    </tr>
-  </table>
+  <h1>Клиенты</h1>
   
   <form method="get" action="">
-        <label for="name"> Имя / Название: </label>
+        <label for="name"> ФИО / Название: </label>
         <input type="text" name="name" value="${name}">
         
         <br>
@@ -55,9 +40,22 @@
         
         <br>
 
-        <label for="info">Контакт (телефон, почта, адрес):</label>
+        <label for="clientContact">Контакт (телефон, почта, адрес):</label>
         <input type="text" name="clientContact" value="${clientContact}">
         
+        <br>
+        
+        Клиенту оказывалась услуга, ID типа которой 
+        <input type="text" name="serviceTypeId" value="${serviceTypeId}">
+        <br>
+        Клиенту оказывалась некоторая услуга в пределах от
+        <input type="text" name="beginLowerTimeStr" value="${beginLowerTimeStr}">
+        до
+        <input type="text" name="endUpperTimeStr" value="${endUpperTimeStr}">
+        (формат даты дд-мм-гггг)
+        <br>
+        Клиенту некоторую услугу оказывал служащий с ФИО
+        <input type="text" name="employeeName" value="${employeeName}">
         <br>
 
         <button type="submit">Искать</button>
@@ -68,9 +66,9 @@
   <table>
     <tr>
       <th>ID</th>
-      <th>Имя / Название</th>
+      <th>ФИО / Название</th>
       <th>Тип клиента</th>
-      <th>Контакты</th>
+      <th>Телефон</th>
     </tr>
     <c:forEach var="client" items="${clients}">
       <tr>
@@ -82,12 +80,12 @@
         <td>
           <c:forEach var="contact" items="${client.contacts}">
             <c:choose>
-              <c:when test="${contact.contactType.toString().equals('phone')}">тел.: </c:when>
-              <c:when test="${contact.contactType.toString().equals('email')}">e-mail: </c:when>
-              <c:otherwise>адрес: </c:otherwise>
+              <c:when test="${contact.contactType.toString().equals('phone')}">
+                ${contact.contact}
+                <br>
+              </c:when>
+              <c:otherwise></c:otherwise>
             </c:choose>
-            ${contact.contact}
-            <br>
           </c:forEach>
         </td>
       </tr>

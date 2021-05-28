@@ -28,12 +28,12 @@
   
   <form method="get" action="/edit_service_type">
     <input type="hidden" name="id" value="${theObject.id}"/>
-    <button type="submit">Редактировать</button>
+    <button type="submit" name = "edit">Редактировать</button>
   </form>
   
   <form method="post" action="/delete_service_type">
     <input type="hidden" name="id" value="${theObject.id}"/>
-    <button type="submit">Удалить</button>
+    <button type="submit" name="delete">Удалить</button>
   </form>
 </body>
 </html>

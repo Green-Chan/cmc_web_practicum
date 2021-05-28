@@ -5,8 +5,8 @@
 <head>
 <title>
   <c:choose>
-    <c:when test="${theObject.id == 0}">Добавить клиента</c:when>
-    <c:otherwise>Редактировать клиента</c:otherwise>
+    <c:when test="${theObject.id == 0}">Добавить служащего</c:when>
+    <c:otherwise>Редактировать служащего</c:otherwise>
   </c:choose>
 </title>
 </head>
@@ -16,12 +16,12 @@
 
   <h1>
     <c:choose>
-      <c:when test="${theObject.id == 0}">Добавить клиента</c:when>
-      <c:otherwise>Редактировать клиента</c:otherwise>
+      <c:when test="${theObject.id == 0}">Добавить служащего</c:when>
+      <c:otherwise>Редактировать служащего</c:otherwise>
     </c:choose>
   </h1>
   
-  <form method="post" action="/save_client">  
+  <form method="post" action="/save_employee">  
         <label for="id">ID:</label>
         <c:choose>
           <c:when test="${theObject.id == 0}">
@@ -35,26 +35,22 @@
 
         <br>
         
-        <label for="name">Имя / Название:</label>
+        <label for="name">ФИО:</label>
         <input type="text" name="name" value="${theObject.name}">
         
         <br>
-
-        <label for="clientType">Тип клиента:</label>
-        <c:choose>
-          <c:when test='${theObject.type == ClientType.person}'>
-            <p><input type="radio" name="clientType" value="person" checked>person</p>
-            <p><input type="radio" name="clientType" value="organization">organization</p>
-          </c:when>
-          <c:otherwise>
-            <p><input type="radio" name="clientType" value="person">person</p>
-            <p><input type="radio" name="clientType" value="organization" checked>organization</p>
-          </c:otherwise>
-        </c:choose>
+        
+        <label for="name">Должность:</label>
+        <input type="text" name="position" value="${theObject.position}">
         
         <br>
         
-        <label for="clientContactType">Контакты:</label>
+        <label for="name">Образование:</label>
+        <input type="text" name="education" value="${theObject.education}">
+        
+        <br>
+        
+        <label for="employeeContactType">Контакты:</label>
         <c:choose>
           <c:when test="${theObject.contacts == null || theObject.contacts.size() == 0}">
             <c:forEach var="i" begin="0" end="4" step="1">
@@ -109,43 +105,6 @@
         </c:choose>
         
         <br>
-        
-        <label for="clientContactType">Контактные лица:</label>
-        <c:choose>
-          <c:when test="${theObject.contactPersons == null || theObject.contactPersons.size() == 0}">
-            <c:forEach var="i" begin="0" end="4">
-              <p>
-                ФИО:
-                <input type="text" name="cpName${i}">
-                <br>
-                Телфон:
-                <input type="text" name="cpPhone${i}">
-              </p>
-            </c:forEach>
-            <input type="hidden" name="cpNum" value="5"> 
-          </c:when>
-          <c:otherwise>
-            <c:forEach var="i" begin="0" end="${theObject.contactPersons.size() - 1}">
-              <p>
-                ФИО:
-                <input type="text" name="cpName${i}" value="${theObject.contactPersons.toArray()[i].name}">
-                <br>
-                Телфон:
-                <input type="text" name="cpPhone${i}" value="${theObject.contactPersons.toArray()[i].phone}">
-              </p>
-            </c:forEach>
-            <c:forEach var="i" begin="${theObject.contactPersons.size()}" end="${theObject.contactPersons.size() + 4}">
-              <p>
-                ФИО:
-                <input type="text" name="cpName${i}">
-                <br>
-                Телфон:
-                <input type="text" name="cpPhone${i}">
-              </p>
-            </c:forEach>
-            <input type="hidden" name="cpNum" value="${theObject.contactPersons.size() + 5}">
-          </c:otherwise>
-        </c:choose>
 
         <button type="submit" name="save">Сохранить</button>
   </form>
@@ -157,7 +116,7 @@
       </form>
     </c:when>
     <c:otherwise>
-      <form method="get" action="/client">
+      <form method="get" action="/employee">
         <input type="hidden" name="id" value="${theObject.id}"/>
         <button type="submit">Отменить</button>
       </form>

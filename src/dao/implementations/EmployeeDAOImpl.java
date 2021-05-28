@@ -23,10 +23,11 @@ public class EmployeeDAOImpl extends CommonDAOImpl<Employee, Integer> implements
     String queryString = "SELECT DISTINCT empl";
     Map<String, Object> parameters = new HashMap<>();
 
-    if (employeeForm == null) {
+    String employeeString = employeeForm.getQueryString("", parameters, false);
+    if (employeeForm == null || employeeString.isEmpty()) {
       queryString += " FROM Employee empl";
     } else {
-      queryString += employeeForm.getQueryString("", parameters, false);
+      queryString += employeeString;
     }
 
     // No parameters means no conditions were created in
@@ -36,32 +37,38 @@ public class EmployeeDAOImpl extends CommonDAOImpl<Employee, Integer> implements
     if (services != null) {
       int i = 0;
       for (ServiceSearchForm service : services) {
-        if (firstCondition) {
-          queryString += " WHERE";
-          firstCondition = false;
-        } else {
-          queryString += " AND";
+        String queryStr = service.getQueryString(String.valueOf(i), parameters, true);
+        if (!queryStr.isEmpty()) {
+          if (firstCondition) {
+            queryString += " WHERE";
+            firstCondition = false;
+          } else {
+            queryString += " AND";
+          }
+          queryString += " empl in (SELECT task.id.employee";
+          queryString += queryStr;
+          queryString += ")";
+          i++;
         }
-        queryString += " empl in (SELECT task.id.employee";
-        queryString += service.getQueryString(String.valueOf(i), parameters, true);
-        queryString += ")";
-        i++;
       }
     }
 
     if (clients != null) {
       int i = 0;
       for (ClientSearchForm client : clients) {
-        if (firstCondition) {
-          queryString += " WHERE";
-          firstCondition = false;
-        } else {
-          queryString += " AND";
+        String queryStr = client.getQueryString(String.valueOf(i), parameters, true);
+        if (!queryStr.isEmpty()) {
+          if (firstCondition) {
+            queryString += " WHERE";
+            firstCondition = false;
+          } else {
+            queryString += " AND";
+          }
+          queryString += " empl in (SELECT task.id.employee";
+          queryString += queryStr;
+          queryString += ")";
+          i++;
         }
-        queryString += " empl in (SELECT task.id.employee";
-        queryString += client.getQueryString(String.valueOf(i), parameters, true);
-        queryString += ")";
-        i++;
       }
     }
 
